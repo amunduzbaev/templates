@@ -52,7 +52,7 @@ signed main(){
 				vector<int> tmp;
 				tmp.insert(tmp.end(), res.begin() + i + 1, res.end());
 				tmp.insert(tmp.end(), res.begin(), res.begin() + i);
-				swap(res, tmp);
+				swap(res, tmp); break;
 			}
 		}
 	}
