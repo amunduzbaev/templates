@@ -65,3 +65,56 @@ ar<vector<int>, 2> sofa(string s){
 	return {p, c};
 }
 
+//~ Aho Corasick
+struct Coras{
+	int last, al;
+	vector<int> slink, def_, is;
+	vector<vector<int>> bor;
+	
+	int add_(){
+		slink.push_back(0), is.push_back(0);
+		bor.push_back(def_);
+		return last++;
+	}
+	
+	Coras(int al) : al(al){
+		def_.resize(al);
+		last = 0;
+		add_();
+	}
+	
+	void add(string s){
+		int r = 0;
+		for(auto x : s){ x -= '0';
+			if(bor[r][x]){
+				r = bor[r][x];
+			} else {
+				r = bor[r][x] = add_();
+			}
+		}
+		
+		if(r) is[r] = 1;
+	}
+	
+	void build(){
+		queue<int> q;
+		q.push(0);
+		while(!q.empty()){
+			int u = q.front(); q.pop();
+			is[u] |= is[slink[u]];
+			
+			for(int i=0;i<al;i++){
+				if(bor[u][i]){
+					slink[bor[u][i]] = u ? bor[slink[u]][i] : 0;
+					q.push(bor[u][i]);
+				} else {
+					bor[u][i] = bor[slink[u]][i];
+				}
+			}
+		}
+	}
+	
+	void vadd(vector<string> v){
+		for(auto s : v) add(s);
+	}
+};
