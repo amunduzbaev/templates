@@ -44,7 +44,7 @@ ar<vector<int>, 2> sofa(string s){
 		c[p[i]] = c[p[i-1]];
 		if(s[p[i]] != s[p[i-1]]) c[p[i]]++;
 	}
- 
+
 	vector<int> cn(n), pn(n);
 	for(int k=0;(1 << k) < n;k++){
 		for(int i=0;i<n;i++) pn[i] = (p[i] - (1 << k) + n) % n;
@@ -54,10 +54,8 @@ ar<vector<int>, 2> sofa(string s){
 		for(int i=n-1;~i;i--) p[--cnt[c[pn[i]]]] = pn[i];
 		cn[p[0]] = 0;
 		for(int i=1;i<n;i++){
-			ar<int, 2> cur = {c[p[i]], c[(p[i] + (1 << k)) % n]};
-			ar<int, 2> prev = {c[p[i - 1]], c[(p[i - 1] + (1 << k)) % n]};
 			cn[p[i]] = cn[p[i-1]];
-			if(cur != prev) cn[p[i]]++;
+			if(c[p[i]] != c[p[i-1]] || c[(p[i] + (1 << k)) % n] != c[(p[i - 1] + (1 << k)) % n]) cn[p[i]]++;
 		} swap(cn, c);
 	} 
 	
