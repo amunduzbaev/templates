@@ -1,3 +1,4 @@
+
 typedef long long ll; 
 const double pi = acos(-1);
 const double eps = 1e-9;
@@ -90,6 +91,43 @@ struct seg_t{
 		}
 		
 		return min({seg.dis(a), seg.dis(b), dis(seg.a), dis(seg.b)});
+	}
+};
+struct ray_t{
+	vec_t a, b;
+	line_t L;
+	
+	void rd(){
+		a.rd(), b.rd();
+		L = line_t(a, b);
+	}
+	
+	ray_t(): ray_t(vec_t(), vec_t()) {}
+	ray_t(const vec_t& a, const vec_t& b): a(a), b(b) {
+		L = line_t(a, b); 
+	}
+	bool is_in(const vec_t& p){
+		return abs((a - p) % (b - p)) < eps && (p - a) * (b - a) + eps > 0;
+	}
+	
+	double dis(const vec_t& p){
+		if((p - a) * (b - a) - eps < 0){
+			return (p - a).len();
+		} else {
+			return abs(L.dis(p));
+		}
+	}
+	
+	double dis(ray_t seg){
+		ar<ll, 3> P = L.intersect(seg.L);
+		if(P[2]){
+			vec_t p(P[0] * 1. / P[2], P[1] * 1. / P[2]);
+			if(is_in(p) && seg.is_in(p)){
+				return 0;
+			}
+		}
+		
+		return min({seg.dis(a), dis(seg.a)});
 	}
 };
 
