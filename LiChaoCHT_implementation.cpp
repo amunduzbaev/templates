@@ -40,7 +40,7 @@ struct LiChao{
 			if(tree[x] * m > v * m) swap(tree[x], v);
 			add(v, m + 1, rx, (R[x] ? R[x] : R[x] = ++last));
 		}
-	} void add(lint v){
+	} void add(line v){
 		add(v, 0, M, 0);
 	}
 	
