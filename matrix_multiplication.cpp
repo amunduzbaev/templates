@@ -36,6 +36,3 @@ mtx bp(mtx a, ll b){
 	return c;
 }
 
-
-
-//
