@@ -1,7 +1,6 @@
 //~ define mod
 const int mod = 1e9 + 7;
 
-
 	auto bp = [&](int a, int b){
 		int c = 1;
 		while(b){
