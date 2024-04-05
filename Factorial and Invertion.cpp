@@ -9,7 +9,7 @@ const int mod = 1e9 + 7;
 			a = a * 1ll * a % mod, b >>= 1;
 		} return rr;
 	};
-
+	
 	auto f_and_inv = [&](vector<int>& f, vector<int>& inv){
 	    f[0] = inv[0] = 1;
 	    for(int i = 1;i < (int)f.size(); i++){
@@ -17,7 +17,7 @@ const int mod = 1e9 + 7;
 			inv[i] = bp(f[i], mod - 2);
 		}
 	};
-
+	
 	//~ initialize f and inv
     vector<int> f(SZ), inv(SZ);
     f_and_inv(f, inv);
