@@ -6,7 +6,7 @@ const int mod = 1e9 + 7;
 		while(b){
 			if(b&1) c = c * 1ll * a % mod;
 			a = a * 1ll * a % mod, b >>= 1;
-		} return rr;
+		} return c;
 	};
 	
 	auto f_and_inv = [&](vector<int>& f, vector<int>& inv){
