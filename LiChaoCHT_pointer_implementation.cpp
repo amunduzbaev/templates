@@ -1,3 +1,5 @@
+const int M = 1e6 + 5;
+
 struct line{
 	ll m, b;
 	
@@ -29,41 +31,42 @@ struct node{
 	}
 };
 
-const int M = 1e9 + 5;
-
 struct LiChao{
-	void add(node* r, line l, int lx, int rx){
+	node* add(node* r, line l, int lx, int rx){
 		if(r == NULL) { 
 			r = new node(l); 
-			return; 
+			return r; 
 		}
 		
 		if(lx == rx){
 			if(r -> l * lx > l * lx) swap(r -> l, l);
-			return;
+			return r;
 		}
 		if(l.m == r -> l.m){
 			umin(r -> l.b, l.b);
-			return;
+			return r;
 		}
 		
 		int m = (lx + rx) >> 1;
 		int ix = r -> l ^ l;
 		if(ix <= m){
 			if(r -> l * (m + 1) > l * (m + 1)) swap(r -> l, l);
-			add(r -> lx, l);
+			r -> lx = add(r -> lx, l, lx, m);
 		} else {
 			if(r -> l * m > l * m) swap(r -> l, l);
-			add(r -> rx, l);
+			r -> rx = add(r -> rx, l, m + 1, rx);
 		}
+		
+		return r;
 	} 
 	
-	void add(node* r, line l){
-		add(r, l, 0, M);
+	node* add(node* r, line l){
+		return add(r, l, 0, M);
 	}
 	
 	ll get(node* r, int i, int lx, int rx){
 		if(r == NULL) return INF;
+		//~ cout<<i<<" "<<r -> l.m<<" "<<r -> l.b<<"\n";
 		if(lx == rx) return r -> l * i;
 		
 		int m = (lx + rx) >> 1;
