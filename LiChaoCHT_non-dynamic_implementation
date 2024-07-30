@@ -1,0 +1,78 @@
+struct line{
+	int m; 
+	ll b;
+	
+	line(){
+		m = inf;
+		b = INF;
+	}
+	
+	line(int m, ll b): m(m), b(b){
+	}
+	
+	bool operator < (const line x){
+		if(m < x.m) return true;
+		if(m == x.m) return (b < x.b);
+		return false;
+	}
+	
+	ll operator * (const int x){
+		return m * 1ll * x + b;
+	}
+	
+	int operator ^ (const line x){
+		return int((b - x.b) / (x.m - m));
+	}
+	
+	bool operator == (const line x){
+		return (x.m == m && x.b == b);
+	}
+};
+ 
+struct LiChao{
+	vector<line> tree;
+	int N;
+	
+	LiChao(int N): N(N){
+		tree.resize(N << 2);
+	}
+	
+	//~ LiChao(){
+		//~ N = SOME_CONSTANT;
+		//~ tree.resize(N << 2);
+	//~ }
+	
+	void add(line v, int lx, int rx, int x){
+		int m = (lx + rx) >> 1;
+		
+		if(v * m < tree[x] * m){
+			swap(tree[x], v);
+		}
+		
+		if(lx == rx) return;
+		
+		if(v * lx < tree[x] * lx){
+			add(v, lx, m, x << 1);
+		} if(v * rx < tree[x] * rx) {
+			add(v, m + 1, rx, x << 1 | 1);
+		}
+	} 
+	
+	void add(line v){
+		add(v, 0, N, 1);
+	}
+	
+	ll get(int i, int lx, int rx, int x){
+		if(lx == rx) { return tree[x] * i; }
+		
+		int m = (lx + rx) >> 1;
+		
+		if(i <= m) return min(tree[x] * i, get(i, lx, m, x << 1));
+		else return min(tree[x] * i, get(i, m + 1, rx, x << 1 | 1));
+	}
+	
+	ll get(int i){
+		return get(i, 0, N, 1);
+	}
+};
+
